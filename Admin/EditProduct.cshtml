@@ -1,0 +1,56 @@
+﻿@{
+    var db = Database.Open("MyDataBase");
+    var selectQueryString = "SELECT * FROM Product";
+
+    var PageTitle = "Edit Product Page"; 
+ }
+ 
+@section t1 {
+    @PageTitle
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Products</title>
+    <style type="text/css">
+        table, th, td {
+          border: solid 1px #bbbbbb;
+          border-collapse: collapse;
+          padding: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Products</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Ctegory</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Filepath</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var row in db.Query(selectQueryString)) {
+          <tr>
+            <td><a href="@Href("UpdateProduct", row.id)">Edit</a></td>
+             <td>@row.Category</td>
+            <td>@row.Name</td>
+            <td>@row.Description</td>
+            <td>@row.Price</td>
+             <td>@row.Filepath</td>
+               <td>@row.Quantity</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    
+         <div style="width: 1350px ">
+         @RenderPage("~/Shared/_adminfooter.cshtml")
+         </div>
+</body>
+</html>

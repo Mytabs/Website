@@ -1,0 +1,116 @@
+﻿@{
+var PageTitle = "Register Page"; 
+var username = "";
+var password1 = "";
+var password2 = "";
+    Validation.RequireField("username", "User name is required");
+    Validation.RequireField("password1", "Password is required");
+    Validation.RequireField("password2", "Confirm Password is required");
+    Validation.Add("password2",Validator.EqualsTo("password1","Password and Confirm password not match"));
+    
+var b=false;
+@* user name validation and create user account *@
+
+  if(IsPost)
+     {
+      
+       if (Validation.IsValid())
+        {          //WebSecurity.Logout();
+                username = Request["username"];
+                password1 = Request["password1"];
+                password2 = Request["password2"];
+
+                    if(!WebSecurity.UserExists(username))
+                    {       
+                        WebSecurity.CreateUserAndAccount(username, password1);
+                        WebSecurity.Login(username,password1);
+                        Response.Redirect("~/Default.cshtml");
+                        b=false;
+                     }
+                     else
+                    {
+                        b=true;
+                    }
+            }
+
+        }
+}
+ 
+@section t1 {
+    @PageTitle
+}   
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Registeration Page</title>
+ 
+@*validation style*@
+      
+ <style>
+.validation-summary-errors {
+  border:2px solid red;
+  color:red;
+  font-weight:bold;
+  margin:6px;
+  width:30%;
+}
+
+.field-validation-error{
+  color:red;
+   font-weight:bold;
+   background-color:yellow;
+}
+
+.input-validation-error{
+  color:red;
+  font-weight:bold;
+  background-color:pink;
+}
+</style>
+
+</head>
+<body>
+
+<h1 style="margin-left:450px; color: #b200ff">Register</h1>
+
+<form action="register" method="post">
+         @* username textbox and label*@
+
+        <div style="margin-left:450px;margin-top: 20px">
+        <label for="username" style=" color: #ff6a00">Username: </label><br />
+        <input id="username" name="username" type="text"  value="" />
+        @Html.ValidationMessage("username")
+        </div>
+        
+         @* password textbox and label*@
+
+        <div style="margin-left:450px;margin-top: 20px">
+        <label for="password1" style=" color: #ff6a00">Password: </label><br />
+        <input id="password1" name="password1" type="password"value="" />
+         @Html.ValidationMessage("password1")
+        </div>
+
+         @*  Confirm password textbox and label*@
+    
+        <div style="margin-left:450px;margin-top: 20px">
+        <label for="password2" style=" color: #ff6a00">Confirm Password: </label><br />
+        <input id="password2" name="password2" type="password" value="" />
+         @Html.ValidationMessage("password2")
+        </div>
+
+         @* submitt username and password  *@
+    
+        <div style="margin-left:450px;margin-top: 20px">
+        <input type="submit" value="Register" />
+           @if(b==true)
+            {
+                <text>
+                <p style="color: #00ff90">User Name already exist Try Again ...</p>
+                </text>
+            }
+        </div>
+</form>
+
+</body>
+</html>

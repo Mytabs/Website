@@ -1,0 +1,28 @@
+﻿@{
+    var PageTitle = "Amin Main Page"; 
+ }
+ 
+@section t1 {
+    @PageTitle
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+       
+    </head>
+    <body>
+     <div style="margin-top: 80px ">
+    </div>
+         <h3 style="margin-left: 450px;margin-top:20px; width:300px; font-family: 'Times New Roman'; font-size: x-large;font-weight: 100; color: #ffd800 ">Welcome To Admin Side</h3>  
+        <h3 style="margin-left: 250px;margin-top:80px; width:650px; font-family: 'Times New Roman'; font-size: x-large;font-weight: 100; color: #ff6a00 ">Select Above links to Perform Actions On Admin Side</h3>
+       <div style="margin-top:100px;width: 1350px ">
+       @RenderPage("~/Shared/_adminfooter.cshtml")</div>
+       
+        </div>
+     
+    </body>
+</html>

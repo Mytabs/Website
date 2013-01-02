@@ -1,0 +1,242 @@
+﻿@{
+   WebImage photo = null;
+    var newFileName = "";
+    var imagePath = "";
+    var PageTitle = "Add Product Page"; 
+    var fileName = "";
+    
+     var db =Database.Open("MyDataBase");
+    //validation of control
+
+    Validation.RequireField("pName", "Product name is required.");
+    //Validation.RequireField("pDescription", "Product description is required.");
+    Validation.RequireField("pPrice", "Product price is required.");
+    Validation.Add("pPrice",Validator.Float("Product price must be Float."));
+    Validation.RequireField("pQuantity", "Product Quantity is required.");
+    Validation.RequireField("pid", "Product id is required.");
+    Validation.Add("pQuantity", Validator.Integer("Credits must be an integer"));
+   // Validation.RequireField("pImage", "Product Image is required.");
+    Validation.RequireField("selectedcategory", "Category is required.");
+    
+    // file path process
+      
+       
+        var Name="";   
+         var Description=""; 
+         var Category=""; 
+         var price=""; 
+         var quantity=""; 
+        // var Id=""; 
+               
+     if(IsPost)
+     {
+                Category = Request.Form["mydropdown"];
+                Name = Request["pName"];
+                Description = Request["pDescription"];
+                price=Request["pPrice"];
+                quantity=Request["pQuantity"];
+               // Id=Request["pid"];
+                 photo = WebImage.GetImageFromRequest();
+                 // getting file path
+                if(photo != null)
+                {
+                   
+                    newFileName =    Path.GetFileName(photo.FileName);
+                    imagePath = @"images\" + newFileName;
+                    //<p>@imagePath</p>
+           
+                    photo.Save(@"~\" + imagePath);
+                }
+            if(Category!="" && Name!="" && price!="" && quantity!="")
+            {
+          // inserting in to db
+           
+           
+            if(IsPost && ModelState.IsValid)
+            {
+                  
+                           <p>Here in data base</p>
+                            var insertQuery = "INSERT INTO Product (Category,Name, Description, Price,Filepath,Quantity) " +
+                            "VALUES (@0, @1, @2, @3, @4, @5)";
+                        db.Execute(insertQuery,Category, Name, Description, price,imagePath,quantity);
+                       
+                }
+          }
+           else
+           {
+               <p style="color: #f00; font-family: 'Times New Roman';font-weight: 700">Error !!! All field are required !!! Quanitity Must be Integer And price Must be Float   </p>
+           }
+
+
+        }
+
+      // }
+       <p>@Name</p>
+ <p>@Category</p>
+          <p>@Description</p>
+ <p>@quantity</p>
+<p>@price</p>
+
+     <p>@imagePath</p>
+        
+ }
+ 
+@section t1 {
+    @PageTitle
+}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+            <link rel="stylesheet" href="~/Styles/foundation.min.css">
+            <link rel="stylesheet" href="~/Styles/app.css">
+            <script src="~/Styles/modernizr.foundation.js"></script>
+            <link rel="stylesheet" href="~/Stylesfooterstyle.css">
+        @*validation style*@
+      
+ <style>
+.validation-summary-errors {
+  border:2px solid red;
+  color:red;
+  font-weight:bold;
+  margin:6px;
+  width:30%;
+}
+
+.field-validation-error{
+  color:red;
+   font-weight:bold;
+   background-color:yellow;
+}
+
+.input-validation-error{
+  color:red;
+  font-weight:bold;
+  background-color:pink;
+}
+</style>
+    </head>
+    <body>
+        
+    <div style="margin-top: 80px ">
+    </div>
+   
+ <div class="row">
+<div class="twelve columns">                    
+<div>
+
+<!-- Right aligned and inline labels -->
+            <form class="custom" action="" method="post" enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="two mobile-one columns">
+                  <label for="customDropdown"  class="right inline">Category:</label>
+                </div>
+                <div class="ten mobile-three columns">
+                  <select style="display: inline;" id="Dropdown" name="mydropdown">
+                    <option SELECTED id="selectedcategory">-Select-</option>
+                        <option>MakeUp</option>
+                        <option>Nail</option>
+                        <option>Face</option>
+                        <option>Hair</option>
+                        <option>Hand</option>
+                        <option>Feet</option>
+                        <option>Gifts</option>
+                        <option>Accessories</option>
+                        <option>Latest products</option>
+                     </select> 
+                </div>
+                @* @Html.ValidationMessage("selectedcategory")*@
+              </div>
+                 @*   <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline">id:</label>
+                </div>
+               
+                <div class="ten mobile-three columns">
+                  <input type="text" class="eight" placeholder="Product id" id="pid" name="pid" value="" />
+                    @Html.ValidationMessage("pid")
+                </div>
+                 </div>*@
+              <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline">Name:</label>
+                </div>
+                  
+                <div class="ten mobile-three columns">
+                  <input type="text" class="eight" placeholder="Product Name" id="pName" name="pName" value="" />
+                    @Html.ValidationMessage("pName")
+                </div>
+                  
+              </div>
+              <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline">Description:</label>
+                </div>
+                <div class="ten mobile-three columns">
+                  <input type="text" class="eight" placeholder="Product Description" name="pDescription"  />
+                </div>
+                 @* @Html.ValidationMessage("pDescription")*@
+              </div>
+                
+              
+              <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline" for="Image">Image</label>
+                </div>
+                <div class="ten mobile-three columns">
+                    <input type="file" class="eight"  name="pImage" />
+                   @* <br/>
+                    <input type="submit" value="Upload" />
+                *@</div>
+                @* @Html.ValidationMessage("pImage")*@
+              </div>
+
+              <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline">Price:</label>
+                </div>
+                <div class="ten mobile-three columns">
+                  <input type="text" class="three"placeholder="Price" name="pPrice"   />
+                </div>
+                  @Html.ValidationMessage("pPrice")
+              </div>
+
+                 <div class="row">
+                    <div class="two mobile-one columns">
+                      <label class="right inline">Quantity:</label>
+                    </div>
+                    <div class="ten mobile-three columns">
+                      <input type="text" class="three" placeholder="Quantity" name="pQuantity"  />
+                    </div>
+                     @Html.ValidationMessage("pQuantity")
+              </div>
+        
+              <div class="row">
+                <div class="offset-by-six two mobile-one columns">
+                  <a class="secondary button" href="AdminMain.cshtml">Cancel</a>
+                </div>
+                <div class="four mobile-three columns">
+                <input type="submit" class="button" value="Save" />
+                           </div>
+              </div>
+  
+  
+  
+
+            </form>
+
+</div>
+                
+</div>
+
+</div>   
+        <div style="width: 1350px ">
+         @RenderPage("~/Shared/_adminfooter.cshtml")
+         </div>
+    
+
+</body>
+</html>

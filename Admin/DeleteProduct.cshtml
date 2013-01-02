@@ -1,0 +1,53 @@
+﻿@{
+  var PageTitle = "Delete Product Page"; 
+  var db = Database.Open("MyDataBase");
+  var ProductId = UrlData[0];
+  //<p>product id @ProductId</p>
+  if (ProductId.IsEmpty()) {
+      Response.Redirect("ListProductForDelete");
+  }
+  <p>here is product id @UrlData[0]</p>
+   var prod = db.QuerySingle("SELECT * FROM Product WHERE id =@0",ProductId);
+  if(IsPost) 
+  {
+    <p style="color: #f00;font-size: x-large">Deleted sucessfully !!!!</p>
+   
+    if((IsPost && ModelState.IsValid)) 
+    {
+    var deleteQueryString = "DELETE FROM Product WHERE id=@0";
+    //Response.Redirect("AdminMain.cshtml");
+    db.Execute(deleteQueryString, ProductId);    
+    Response.Redirect(@Href("ListProductForDelete"));
+     }// break;
+  }
+}
+
+@section t1 {
+    @PageTitle
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Product</title>
+</head>
+<body>
+  <h1>Delete Product - Confirmation</h1>
+  <form method="post" action="" name="form">
+    <p>Are you sure you want to delete the following product?</p>
+
+      
+    <p>Name: @prod <br />
+        Name: @prod.Name <br />
+       Description: @prod.Description <br />
+       Price: @prod.Price<br/>
+       Name: @prod.Filepath <br/>
+       Name: @prod.Quantity </p>
+    
+      <p><input type="submit" value="Delete" /></p>
+  </form>
+    
+         <div style="width: 1350px ">
+         @RenderPage("~/Shared/_adminfooter.cshtml")
+         </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+﻿@{
+    
+}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+      
+        <title></title>
+        <link href="~/Styles/styles.css" rel="stylesheet" type="text/css" />
+        
+
+    </head>
+    <body>
+        <div id="headeradmin">
+			  <a href="~/Admin/AdminMain.cshtml" class="toplinks">Admin Home</a>
+         
+                 @if(WebSecurity.IsAuthenticated)
+                 {         
+                         <a href="~/pages/logout.cshtml" id="mylogin1" class="toplinks">Logout</a>                                                         	          
+                 }
+                 else
+                 {                
+                     <a href="@Href("~/pages/login?returnUrl=", Request.Url.LocalPath)" id="mylogin2" class="toplinks">Login</a>
+                 }
+               
+			<a href="~/Admin/AddProduct.cshtml" class="toplinks">Add Product</a>
+			<a href="~/Admin/ListProductForDelete.cshtml" class="toplinks">Delete Product</a>
+            <a href="~/Admin/UpdateProduct.cshtml" class="toplinks">Update Product</a>
+            <a href="~/Admin/Addslider.cshtml" class="toplinks">AddSilderImages</a>
+           @*  <a href="~/Admin/DeleteSlider.cshtml" class="toplinks">DeleteSilderImages</a>*@
+        </div>
+        
+    </body>
+</html>

@@ -1,0 +1,33 @@
+﻿@{  
+    var PageTitle = "Remove Item Page"; 
+     var removeIndex = UrlData[0];
+     <p>@removeIndex</p>
+        
+        if (Session["cart"] == null)
+        {
+        Session["cart"] = new Cart();
+        }
+       
+       Cart cart = (Cart)Session["cart"];
+      //Cart crt=new Cart();
+      cart.RemoveItem(Convert.ToInt32(removeIndex));
+      <h1 style="margin-left:100px;width:400px; color: #ff6a00  "> Deleted Successfully</h1>    
+       //Response.Redirect(@Href("AddtoCartPage"));
+      //<a href="@Href("AddtoCartPage")">GO BACK</a>
+       
+       
+ }
+ 
+@section t1 {
+    @PageTitle
+}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+    </head>
+    <body>
+    </body>
+</html>

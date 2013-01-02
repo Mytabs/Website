@@ -1,0 +1,93 @@
+﻿@{
+    var PageTitle = "Add Slider Page"; 
+     WebImage photo = null;
+    var newFileName = "";
+    var imagePath = "";
+    var fileName = "";
+    var db =Database.Open("MyDataBase");
+      if(IsPost)
+     {
+          photo = WebImage.GetImageFromRequest();
+                 // getting file path
+                if(photo != null)
+                {
+                   
+                    newFileName =    Path.GetFileName(photo.FileName);
+                    imagePath = @"images\" + newFileName;
+                    <p>@imagePath</p>
+           
+                    photo.Save(@"~\" + imagePath);
+                     if(IsPost && ModelState.IsValid)
+            {
+                <p>here in database</p>
+                     var insertQuery = "INSERT INTO SliderImage (filepath) " +
+                            "VALUES (@0)";
+                        db.Execute(insertQuery,imagePath);
+             }
+         }
+ }
+ }
+@section t1 {
+    @PageTitle
+}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+         <link rel="stylesheet" href="~/Styles/foundation.min.css">
+            <link rel="stylesheet" href="~/Styles/app.css">
+            <script src="~/Styles/modernizr.foundation.js"></script>
+            <link rel="stylesheet" href="~/Stylesfooterstyle.css">
+        @*validation style*@
+      
+ <style>
+.validation-summary-errors {
+  border:2px solid red;
+  color:red;
+  font-weight:bold;
+  margin:6px;
+  width:30%;
+}
+
+.field-validation-error{
+  color:red;
+   font-weight:bold;
+   background-color:yellow;
+}
+
+.input-validation-error{
+  color:red;
+  font-weight:bold;
+  background-color:pink;
+}
+</style>
+    </head>
+    <body>
+         <div style="margin-top: 80px ">
+    </div>
+        <div class="row">
+<div class="twelve columns">                    
+<div>
+         <form class="custom" action="" method="post" enctype="multipart/form-data">
+         <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline" for="Image">Image</label>
+                </div>
+                <div class="ten mobile-three columns">
+                    <input type="file" class="eight"  name="pImage" />
+                    <br/>
+                    <input type="submit" value="Upload" />
+                </div>
+                @* @Html.ValidationMessage("pImage")*@
+              </div>
+             </form>
+    </div>
+    </div>
+</div>
+          <div style="width: 1350px ">
+         @RenderPage("~/Shared/_adminfooter.cshtml")
+         </div>
+    </body>
+</html>

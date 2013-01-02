@@ -1,0 +1,41 @@
+.inner_copy {border:0;color:#f00;float:left;width:50% !important;margin:-100% 0 0 0;overflow:hidden;line-height:0;padding:0;font-size:11px}
+.fleft {float:left}
+.fright  {float:right}
+.fcenter {float:none;margin:0 auto;text-align:center}
+.fclear {clear:both}
+body {margin:10px 0 10px 0;padding:0;background:#7F011E;text-align:justify;font-family:Arial, Helvetica, sans-serif;font-size:12px;color:#333}
+#wrapper {width:980px;margin:0 auto;background:#fff}
+#header {width:980px;height:250px;margin:0 auto;background:#222 url(images/costmetics.jpg) no-repeat right bottom}
+#left {float:left;width:170px;margin:5px 0 0 10px;padding:5px}
+#content {float:left;width:555px;margin:5px 0 0 10px;padding:5px}
+#right {float:right;width:190px;margin:5px 10px 0 5px;padding:5px}
+.clear {clear:both;height:0}
+#footer {height:50px;padding:10px 0 0 0;background:#FF6600;color:#fff}
+#footer div{padding:11px}
+#welcome {background:#ccc;padding:3px;border:1px solod #ccc}
+h2 {font-size:22px;display:inline;margin:0}
+h3 {font-size:15px;color:#555;background:#9fc48d;height:22px;display:block;margin:0;padding:2px 0 2px 2px;border:1px solid #009999}
+h4 {font-size:12px;color: #009999;display:inline;padding-left:35px;font-weight:normal}
+p {line-height:22px}
+ul {margin-left:0;padding-left:0;list-style:none;line-height:22px}
+ul li {padding:2px 0 5px 5px;display:block;background:#ccc;border:1px solid #990}
+ul li:hover {background:#fff}
+#welcome img {float:left;margin:6px;border:2px solid #fff;width:200px;height:130px}
+.thumbs {float:left;width:170px;height:150px;margin:5px;border:1px solid #ccc;text-align:center;vertical-align:text-top}
+.thumbs img {width:160px;height:120px;margin:2px;display:inline;border:0px}
+.price {color:#f00;font-size:14px;padding:2px}
+.detail {color:#000;font-size:12px;padding:2px}
+.cart {color:#339933;font-size:12px;padding:2px}
+h1 {padding:45px 0 0 30px;color: #990;font-weight:normal;font-size:36px;text-decoration:none;line-height:36px;margin:0px}
+h1 a {color: #990;text-decoration:none}
+h1 a:hover {color: #990;text-decoration:none}
+#menu {height:60px;padding-left:50px;background:#000}
+#search {float:right;width:250px;height:30px;margin:15px 20px 0 0}
+.toplinks {width:100px;text-align:center;float:left;height:40px;line-height:40px;font-family:tahoma;font-size:12px;font-weight:bold;margin:10px 0 0 3px;color:#333;text-decoration:none;background:url(images/linkbg.png) no-repeat center bottom}
+.toplinks:hover {color:#be4204;background:url(images/linkbg-hover.png) no-repeat center bottom}
+a {color:#000}
+a:hover {text-decoration:none;color:#900}
+#topdiv {margin-top: 0px; margin-left: 170px}
+.toplink {width:100px;text-align:center;float:left;height:40px;line-height:40px;font-family:tahoma;font-size:12px;font-weight:bold;margin:10px 0 0 3px;color:#333;text-decoration:none;background:url(images/linkbg-hover.png) no-repeat center bottom}
+.toplink:hover {color:#be4204;background:url(images/linkbg.png) no-repeat center bottom}
+#headeradmin {margin-left: 180px;margin-top: 20px}

@@ -1,0 +1,236 @@
+﻿@{
+    var newFileName = "";
+    var imagePath = "";
+    WebImage photo = null;
+    var fileName = "";
+   Validation.RequireField("pName", "Product name is required.");
+    Validation.RequireField("pDescription", "Product description is required.");
+    Validation.RequireField("pPrice", "Product price is required.");
+    Validation.Add("pPrice",Validator.Float("Product price must be Float."));
+    Validation.RequireField("pQuantity", "Product Quantity is required.");
+    //Validation.RequireField("pid", "Product id is required.");
+    Validation.Add("pQuantity", Validator.Integer("Credits must be an integer"));
+   // Validation.RequireField("pImage", "Product Image is required.");
+   // Validation.RequireField("selectedcategory", "Category is required.");
+    var db = Database.Open("MyDataBase");
+    var selectQueryString = "SELECT * FROM Product WHERE Id=@0";
+    var ProductId  = UrlData[0];
+    if (ProductId.IsEmpty()) {
+         Response.Redirect("EditProduct");
+    }
+
+    
+    if(IsPost)
+     {
+               
+               var Category = Request.Form["mydropdown"];
+               var Name = Request["pName"];
+                var Description = Request["pDescription"];
+                var price=Request["pPrice"];
+                var quantity=Request["pQuantity"];
+               
+               // checking data is empty or not 
+                if(Category=="-Select-" && Name=="" && Description=="" && price=="" && quantity=="" && photo == null)
+                {
+                     <p style="color: #f00; font-family: 'Times New Roman';font-weight: 700">Error !!! Specify atleast one product!!!</p>
+                }
+                else
+                {
+                 var row = db.QuerySingle(selectQueryString, ProductId);
+               // var Id=Request["pid"];
+                 photo = WebImage.GetImageFromRequest();
+                 // getting file path
+                if(photo != null)
+                {
+                   
+                    newFileName =    Path.GetFileName(photo.FileName);
+                    imagePath = @"images\" + newFileName;
+                    <p>@imagePath</p>
+           
+                    photo.Save(@"~\" + imagePath);
+                }
+                else
+                {
+                    imagePath=row.Filepath;
+                }
+                // checking fields if empty 
+
+            if(Category=="-Select-")
+            {
+                Category=row.Category;
+            }
+             if(Name=="")
+            {
+                Name=row.Name;
+            }
+            if(Description=="")
+            {
+                Description=row.Description;
+            }
+            if(price=="")// && Name!="" && Description!="" && price!="" && quantity!="")
+            {
+                price=Convert.ToString(row.Price);
+            }
+            if(quantity=="")// && Name!="" && Description!="" && price!="" && quantity!="")
+            {
+                quantity=Convert.ToString(row.Quantity);
+            }
+          // inserting in to db
+            <p>@Category</p>
+              
+          
+               //Updating Database
+                    if(IsPost && ModelState.IsValid)
+                    {
+                  
+                                   <p>here in data base</p>
+                                    var updateQueryString ="UPDATE Product SET Category=@0, Name=@1, Description=@2, Price=@3,Filepath=@4,Quantity=@5 WHERE ID=@6" ;    
+                                    db.Execute(updateQueryString,Category, Name, Description, price,imagePath,quantity,ProductId);
+                                    Response.Redirect(@Href("EditProduct"));
+                       
+                        }          
+           }
+
+    
+    }
+
+    var PageTitle = "Update Product Page"; 
+ }
+ 
+@section t1 {
+    @PageTitle
+}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Products</title>
+  <style type="text/css">
+     label { float: left; width: 8em; text-align: right;
+             margin-right: 0.5em;}
+     fieldset { padding: 1em; border: 1px solid; width: 35em;}
+     legend { padding: 2px 4px;  border: 1px solid; font-weight: bold;}
+     .validation-summary-errors {font-weight:bold; color:red; font-size:11pt;}
+  </style>
+</head>
+<body>
+       
+    <div style="margin-top: 80px ">
+    </div>
+   
+ <div class="row">
+<div class="twelve columns">                    
+<div>
+
+<!-- Right aligned and inline labels -->
+            <form class="custom" action="" method="post" enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="two mobile-one columns">
+                  <label for="customDropdown"  class="right inline">Category:</label>
+                </div>
+                <div class="ten mobile-three columns">
+                  <select style="display: inline;" id="Dropdown" name="mydropdown">
+                    <option SELECTED id="selectedcategory">-Select-</option>
+                        <option>MakeUp</option>
+                        <option>Nail</option>
+                        <option>Face</option>
+                        <option>Hair</option>
+                        <option>Hand</option>
+                        <option>Feet</option>
+                        <option>Gifts</option>
+                        <option>Accessories</option>
+                        <option>Latest products</option>
+                     </select> 
+                </div>
+                @* @Html.ValidationMessage("selectedcategory")*@
+              </div>
+                @* <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline">id:</label>
+                </div>
+                
+                <div class="ten mobile-three columns">
+                  <input type="text" class="eight" placeholder="Product id" id="pid" name="pid" value="" />
+                    @Html.ValidationMessage("pid")
+                </div>
+                 </div>*@
+              <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline">Name:</label>
+                </div>
+                  
+                <div class="ten mobile-three columns">
+                  <input type="text" class="eight" placeholder="Product Name" id="pName" name="pName" value="" />
+                    @Html.ValidationMessage("pName")
+                </div>
+                  
+              </div>
+              <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline">Description:</label>
+                </div>
+                <div class="ten mobile-three columns">
+                  <input type="text" class="eight" placeholder="Product Description" name="pDescription"  />
+                </div>
+                  @Html.ValidationMessage("pDescription")
+              </div>
+                
+              
+              <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline" for="Image">Image</label>
+                </div>
+                <div class="ten mobile-three columns">
+                    <input type="file" class="eight"  name="pImage" />
+                   @* <br/>
+                    <input type="submit" value="Upload" />
+                *@</div>
+                @* @Html.ValidationMessage("pImage")*@
+              </div>
+
+              <div class="row">
+                <div class="two mobile-one columns">
+                  <label class="right inline">Price:</label>
+                </div>
+                <div class="ten mobile-three columns">
+                  <input type="text" class="three"placeholder="Price" name="pPrice"   />
+                </div>
+                  @Html.ValidationMessage("pPrice")
+              </div>
+
+                 <div class="row">
+                    <div class="two mobile-one columns">
+                      <label class="right inline">Quantity:</label>
+                    </div>
+                    <div class="ten mobile-three columns">
+                      <input type="text" class="three" placeholder="Quantity" name="pQuantity"  />
+                    </div>
+                     @Html.ValidationMessage("pQuantity")
+              </div>
+        
+              <div class="row">
+                <div class="offset-by-six two mobile-one columns">
+                  <a class="secondary button" href="AdminMain.cshtml">Cancel</a>
+                </div>
+                <div class="four mobile-three columns">
+                <input type="submit" class="button" value="Save" />
+                           </div>
+              </div>
+  
+  
+  
+
+            </form>
+
+</div>
+                
+</div>
+
+</div>   
+        <div style="width: 1350px ">
+         @RenderPage("~/Shared/_adminfooter.cshtml")
+         </div>
+    
+
+</body>
+</html>

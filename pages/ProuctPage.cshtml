@@ -1,0 +1,326 @@
+﻿@{
+    var PageTitle = "Product Page";    
+    Layout = "~/Shared/_Layout.cshtml";
+    // getting data from data base
+    var db = Database.Open("MyDataBase");
+    var q = "SELECT * FROM Product";
+    var data = db.Query(q); 
+     var q1 = "SELECT * FROM SliderImage";
+     var page=UrlData[0];
+     <p>in product Page @page</p>
+    var data1 = db.Query(q1); 
+    int i=0;  
+    var b=false;
+    //Session["pathvalue"]="";
+    //total cart item
+     if (Session["cart"] == null)
+        {
+        Session["cart"] = new Cart();
+        }
+       
+       Cart cart = (Cart)Session["cart"];      
+ }
+ 
+@section t1 {
+    @PageTitle
+}   
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+
+         <title></title>
+
+    <script src="~/Styles/jquery-1.4.4.min.js" type="text/javascript"></script>
+
+    <link href="~/Styles/smart-gallery.css" rel="stylesheet" type="text/css" />
+
+     <link href="~/Styles/footerstyle.css" rel="stylesheet" type="text/css" />
+
+    <script src="~/Styles/smart-gallery.min.js" type="text/javascript"></script>
+
+        
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#smart-gallery').gallery({ stickthumbnails: true, random: true});
+       
+    });
+
+     
+    </script>
+
+    <style type="text/css">
+        body
+        {
+            margin: 0;
+            padding: 0;
+            background-color: Black;
+        }
+        #contributor
+        {
+            color: Gray;
+            margin: 0;
+            padding: 0;
+            margin-top: 4px;
+            text-align: center;
+        }
+        #contributor a
+        {
+            color: Gray;
+        }
+    </style>
+        <title></title>
+    </head>
+    <body>
+      
+        @*slider images *@
+  <div  style="margin-left:250px ">
+      
+    
+ </div>
+ 
+  @*side baar content  *@      
+  <div style="margin-top:10px; margin-left:250px  ">
+ <div id="wrapper"><div class="inner_copy"></div>
+	
+	<div id="left" >
+		<h3>Most Selling Items</h3>
+		
+			 </br>
+            </br>
+			 <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a></li>
+            </br>
+            </br>
+			 <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			 <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+            <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+            <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+            <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+           <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br
+		
+        <h3>Shoping Cart</h3>
+        <div style="margin-top:18px;width:180px;height:150px">
+        <h3><span>@cart.Items.Count items</span> in your cart</h3>
+            </div>
+	</div>     @* middle content coming from databas *@
+
+    <div id="templatemo_content" style=" margin-left:50px">
+            
+              	  <div id="content_top"></div>
+                <div id="content_middle">
+                	<h3>Latest Products</h3>
+                    
+                    @*all pages access through different string in Url*@
+
+            	      @foreach(var row in data)
+                      {
+                        if(page=="M")
+                        {         if(row.Category=="MakeUp")
+                                   {
+                                     b=true;
+                		            <div class="product_box">
+                                    <a href="#"><img  id="my1" src=@(Href("~/" + row.Filepath)) alt="Data Base Image " width="220" height="165" /></a>
+                                    <h3>@row.Name</h3>
+                      	            <p class="price">Price: <span>$@row.Price</span></p>                       
+                                    <a href="@Href("~/pages/DetailPage.cshtml",row.filepath,";",row.Name,";",row.Price,";",row.Description)" class ="detail">Detail</a>
+                                 
+                                    <div class="cleaner"></div>
+                                    </div>
+                                   }
+                          }
+                        else if(page=="N")
+                        {
+
+                               if(row.Category=="Nail")
+                                   {
+                                     b=true;
+                		            <div class="product_box">
+                                    <a href="#"><img  id="my1" src=@(Href("~/" + row.Filepath)) alt="Data Base Image " width="220" height="165" /></a>
+                                    <h3>@row.Name</h3>
+                      	            <p class="price">Price: <span>$@row.Price</span></p>
+                                    <a href="@Href("~/pages/DetailPage.cshtml",row.filepath,";",row.Name,";",row.Price,";",row.Description)"class ="detail">Detail</a>
+                                    <div class="cleaner"></div>
+                                    </div>
+                                   }
+                          }
+                         else if(page=="Fa")
+                        {
+
+                               if(row.Category=="Face")
+                                   {
+                                     b=true;
+                		            <div class="product_box">
+                                    <a href="#"><img  id="my1" src=@(Href("~/" + row.Filepath)) alt="Data Base Image " width="220" height="165" /></a>
+                                    <h3>@row.Name</h3>
+                      	            <p class="price">Price: <span>$@row.Price</span></p>
+                                    <a href="@Href("~/pages/DetailPage.cshtml",row.filepath,";",row.Name,";",row.Price,";",row.Description)"class ="detail">Detail</a>
+                                    <div class="cleaner"></div>
+                                    </div>
+                                   }
+                          }
+                           else if(page=="H")
+                        {
+
+                               if(row.Category=="Hair")
+                                   {
+                                     b=true;
+                		            <div class="product_box">
+                                    <a href="#"><img  id="my1" src=@(Href("~/" + row.Filepath)) alt="Data Base Image " width="220" height="165" /></a>
+                                    <h3>@row.Name</h3>
+                      	            <p class="price">Price: <span>$@row.Price</span></p>
+                                    <a href="@Href("~/pages/DetailPage.cshtml",row.filepath,";",row.Name,";",row.Price,";",row.Description)"class ="detail">Detail</a>
+                                    <div class="cleaner"></div>
+                                    </div>
+                                   }
+                          }
+                           else if(page=="Ha")
+                        {
+
+                               if(row.Category=="Hand")
+                                   {
+                                     b=true;
+                		            <div class="product_box">
+                                    <a href="#"><img  id="my1" src=@(Href("~/" + row.Filepath)) alt="Data Base Image " width="220" height="165" /></a>
+                                    <h3>@row.Name</h3>
+                      	            <p class="price">Price: <span>$@row.Price</span></p>
+                                    <a href="@Href("~/pages/DetailPage.cshtml",row.filepath,";",row.Name,";",row.Price,";",row.Description)"class ="detail">Detail</a>
+                                    <div class="cleaner"></div>
+                                    </div>
+                                   }
+                          }
+                           else if(page=="F")
+                        {
+
+                               if(row.Category=="Feet")
+                                   {
+                                     b=true;
+                		            <div class="product_box">
+                                    <a href="#"><img  id="my1" src=@(Href("~/" + row.Filepath)) alt="Data Base Image " width="220" height="165" /></a>
+                                    <h3>@row.Name</h3>
+                      	            <p class="price">Price: <span>$@row.Price</span></p>
+                                    <a href="@Href("~/pages/DetailPage.cshtml",row.filepath,";",row.Name,";",row.Price,";",row.Description)"class ="detail">Detail</a>
+                                    <div class="cleaner"></div>
+                                    </div>
+                                   }
+                          }
+                           else if(page=="G")
+                        {
+
+                               if(row.Category=="Gifts")
+                                   {
+                                     b=true;
+                		            <div class="product_box">
+                                    <a href="#"><img  id="my1" src=@(Href("~/" + row.Filepath)) alt="Data Base Image " width="220" height="165" /></a>
+                                    <h3>@row.Name</h3>
+                      	            <p class="price">Price: <span>$@row.Price</span></p>
+                                    <a href="@Href("~/pages/DetailPage.cshtml",row.filepath,";",row.Name,";",row.Price,";",row.Description)"class ="detail">Detail</a>
+                                    <div class="cleaner"></div>
+                                    </div>
+                                   }
+                          }
+                           else if(page=="A")
+                        {
+
+                               if(row.Category=="Accessories")
+                                   {
+                                     b=true;
+                		            <div class="product_box">
+                                    <a href="#"><img  id="my1" src=@(Href("~/" + row.Filepath)) alt="Data Base Image " width="220" height="165" /></a>
+                                    <h3>@row.Name</h3>
+                      	            <p class="price">Price: <span>$@row.Price</span></p>
+                                    <a href="@Href("~/pages/DetailPage.cshtml",row.filepath,";",row.Name,";",row.Price,";",row.Description)"class ="detail">Detail</a>
+                                    <div class="cleaner"></div>
+                                    </div>
+                                   }
+                          }
+                        
+
+
+                        }
+                      @if(b==false)
+                      {
+                          <div class="product_box"> No Matching Product</div>
+                      }
+                      
+                   
+              @* static work      
+			  <div class="product_box">
+                    
+                    	<a href="#"><img id="my1" src="~/Styles/images/1b.jpg" alt="Red Bell" width="220" height="165" /></a>
+       			<h3>Shades</h3>
+                        <p class="price">Price: <span>$30</span></p>
+                        <a href="~/pages/DetailPage.cshtml" class="detail">Detail</a><a href="#" class="addtocard">Add to cart</a>
+                        
+                        <div class="cleaner"></div>
+                    </div>
+                    
+                    
+              <div class="product_box margin_r20">
+            	
+                		<a href="#" target="_parent"><img id="my1" src="~/Styles/images/1c.jpg" alt="Christmas Gift" width="220" height="165" /></a>
+                      <h3>Red Lipstick</h3>
+                        
+                      	<p class="price">Price: <span>$45</span></p>
+                        <a href="DetailPage.cshtml" class="detail">Detail</a><a href="#" class="addtocard">Add to cart</a>
+                        
+                        <div class="cleaner"></div>
+                    </div>
+                    
+      				<div class="product_box">
+                    
+                    	<a href="#" target="_parent"><img id="my1" src="~/Styles/images/1d.jpg" alt="Christmas Bell" width="220" height="165" /></a>
+       					<h3>Eye Shades</h3>
+                        <p class="price">Price: <span>$25</span></p>
+                        <a href="DetailPage.cshtml" class="detail">Detail</a><a href="#" class="addtocard">Add to cart</a>
+                        
+                        <div class="cleaner"></div>
+                    </div>
+                    *@
+                  <div class="cleaner"></div>
+                            
+                </div>
+                <div id="content_bottom"></div>
+            
+    
+   
+<div class="clear"></div>
+</div>
+    </div>
+     </div>
+    </div>
+        <div style="margin-top:900px "></div>
+    </body>
+</html>

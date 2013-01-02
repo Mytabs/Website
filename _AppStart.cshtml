@@ -1,0 +1,19 @@
+﻿@{
+    AppState["appName"] = "My Custom Web Site";
+}
+@{
+    WebSecurity.InitializeDatabaseConnection("MyMemberShipDB",
+"UserProfile", "UserId", "UserName", true);
+}
+ 
+@{ PayPal.Profile.Initialize( "taiba._1357071511_biz_api1.yahoo.com", "1357071533", "A7s0Bsf0wmTF3pMoIGJUK.ETtCioA.D4Ee0XHHXT.8H2eJXFs-JRYgR0 ", "sandbox"); 
+   // General Adaptive Payments’ properties 
+   PayPal.Profile.Language = "en_US"; 
+   PayPal.Profile.CancelUrl = "http://www.mystore.com/ohtoobad.cshtml"; 
+   PayPal.Profile.ReturnUrl = "http://www.mystore.com/thanks.cshtml"; 
+   PayPal.Profile.IpnUrl = "http://www.mystore.com/notifications.cshtml"; 
+   PayPal.Profile.CurrencyCode = "USD"; }
+
+}
+
+

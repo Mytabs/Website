@@ -1,0 +1,204 @@
+﻿@using Microsoft.Web.Helpers; 
+
+@{
+    var PageTitle = "Detail Page"; 
+           
+              // getting value from prev page to show product
+            
+   
+              var imagepath="";
+              var Decription="";
+              var Price="";
+              var name="";
+              var count=0;
+              foreach(var s in UrlData)
+              {
+                  count++;
+                  if(s==";")
+                  {
+                      break;
+                  }
+                  else
+                  { 
+                   imagepath=imagepath+"/"+s;
+                 }
+                 <p> image path @imagepath</p>
+              }
+             name=UrlData[count];
+            // <p>product name @name</p>
+             Price=UrlData[count+2];
+             //<p>product name @Price</p>
+              Decription=UrlData[count+4];
+              //<p>product name @Decription</p>
+                  Session["Name"]=name;
+                        Session["price"]=Price;   
+                         //pay pal helper
+                         
+                          var payPalButton = PayPal.ButtonManager.AddToCartButton.Create( business : "taiba._1357071511_biz@yahoo.com", itemName :name, amount : Price); 
+                          HtmlString payPalButtonHtml = new HtmlString(payPalButton.WebSiteCode);
+                         //session values for cart total
+
+                         if (Session["cart"] == null)
+                            {
+                            Session["cart"] = new Cart();
+                            }
+       
+                           Cart cart = (Cart)Session["cart"];                       
+            if(IsPost)
+            {
+                if(WebSecurity.IsAuthenticated)
+                {
+                    
+                }
+                else
+                {
+                    
+                }
+            }
+    
+ }
+ 
+@section t1 {
+    @PageTitle
+}
+<!DOCTYPE html>
+
+<html lang="en" xmlns:fb="http://ogp.me/ns/fb#">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        
+     <link href="~/Styles/footerstyle.css" rel="stylesheet" type="text/css" />
+
+        <script type="text/javascript">
+              function ShowBiggerImage(obj) {
+
+          
+                    document.getElementById("imgdiv").style.visibility = "visible";
+
+                    document.getElementById("imgdiv").innerHTML = "<img src='" + obj.src + "'+'width=600 height=500' >";
+
+                    document.getElementById("imgdiv").style.left = event.clientX;
+
+                    document.getElementById("imgdiv").style.top = event.clientY;
+
+                    document.getElementById("imgdiv").style.zIndex = "0";
+
+                }
+
+                function ShowDefaultImage(obj) {
+
+                    document.getElementById("imgdiv").innerHTML = "";
+
+                    document.getElementById("imgdiv").style.visibility = "hidden";
+
+                }
+
+         
+    </script>
+       <script type="text/javascript" src="http://connect.facebook.net/en_US/all.js#appId=254724114552464&amp;xfbml=1"></script>
+
+    </head>
+    <body>
+ 
+
+ <div style="margin-top:10px; margin-left:250px  ">
+ <div id="wrapper"><div class="inner_copy"></div>
+	
+	<div id="left">
+		<h3>Most Selling Items</h3>
+		
+			 </br>
+            </br>
+			 <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a></li>
+            </br>
+            </br>
+			 <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			 <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+            <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+            <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+			<a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+            </br>
+            </br>
+            <a href="BestItem.cshtml" style="background-color: #ff00dc"> Category Link</a>
+           
+		
+        <h3>Shoping Cart</h3>
+        <div style="margin-top:18px;width:180px;height:150px">
+        <h3><span>@cart.Items.Count items</span> in your cart</h3>
+            </div>
+	</div>
+ 
+         <div id="templatemo_content">
+            <div id="imgdiv" style="position: absolute; z-index: 2; border: solid 1px black;visibility: hidden;"> </div>
+        
+              @*showing image in detail page*@
+
+              	  <div id="content_top_center"></div>
+                <div id="content_center">
+                	
+                    <div class="product_box_detail margin_r20">
+            	
+                		<a href="#"> <img  id="Image1" src=@(Href("~" +imagepath)) alt="My Image" width="220" height="165"   onmousemove="ShowBiggerImage(this);"  onmouseout="ShowDefaultImage(this);"/></a>
+                      <h3>@name</h3>
+                        
+                      	<p class="price">Price: <span>$@Price</span></p>
+                      
+                        @if(WebSecurity.IsAuthenticated)
+                        {
+                        <a href="#"class ="detail"></a><a href="@Href("AddtoCartPage.cshtml")" class="addtocard"> @payPalButtonHtml</a><a href="#"class ="detail"></a>
+                        }
+                        else
+                        {
+                          <p style="color: red">login to add item to cart</p> 
+                        }
+                        @*adding face book like button *@
+                         <div id="fb-root"></div>
+                            <script>(function(d, s, id) {
+                              var js, fjs = d.getElementsByTagName(s)[0];
+                              if (d.getElementById(id)) return;
+                              js = d.createElement(s); js.id = id;
+                              js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                              fjs.parentNode.insertBefore(js, fjs);
+                            }(document, 'script', 'facebook-jssdk'));</script>
+                        </br>
+                        </br>
+                        <fb:like href="http://localhost:56360/pages/DetailPage.cshtml" send="false" width="450" show_faces="true"></fb:like>
+                        <p class="price">Share Product: @LinkShare.GetHtml(" Share Product")<span></span></p>
+                        
+                        </div>
+                     
+</div>
+</div>
+
+ </div>
+            </div> 
+              <div style="margin-left:500px;margin-top:20px; width:350px;  color:#ff00dc"><h3>Product Decription:  @Decription </h3>
+                
+          </div>
+       
+    </body>
+</html>

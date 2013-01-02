@@ -1,0 +1,130 @@
+﻿@{
+
+var PageTitle = "Login Page";
+var username = "";
+var password = "";
+var b=false;
+
+
+@*checking user name and password and taking user to main page *@
+    if (!Request.QueryString["ReturnUrl"].IsEmpty())
+                {
+                    Session["ru"] = @Request.QueryString["ReturnUrl"];
+                }
+    
+     //<p>"return url =" @Request.QueryString["ReturnUrl"]</p>
+    if (IsPost)
+    {
+        username = Request["username"];
+        password = Request["password"];
+        if (username != "" && password != "")
+        {
+            if (username == "tabs" && password == "123")
+            {
+                WebSecurity.Login(username, password);
+                Response.Redirect("~/Admin/AdminMain.cshtml");
+                b = false;
+
+
+            }
+            else if (WebSecurity.Login(username, password))
+            {
+
+
+                if (Session["ru"]!=null)
+                {
+                    var val= Session["ru"].ToString() ;
+                    Response.Redirect( "~/"+val );
+                    //Context.RedirectLocal(Session["ru"].ToString());
+                    b=false;
+                }
+                else
+                {
+                      b=false;
+                    Response.Redirect("~/Default.cshtml"); // Goes to site home        
+                }
+            
+            }
+            else
+            {
+                b = true;
+
+            }
+        
+        }
+          
+    else
+    {
+        b = true;
+
+
+    }
+  }
+ 
+}
+ 
+ 
+@section t1 {
+    @PageTitle
+} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Login</title>
+    
+
+
+
+
+</head>
+<body>
+
+<h1 style="margin-left:450px; color: #b200ff" >Login</h1>
+
+<form action="login" method="post">
+
+    @* username textbox and label*@
+    
+    <div style="margin-left:450px;margin-top: 20px">
+    
+        <label for="username" style=" color: #ff6a00">Username: </label><br />
+        <input id="username" name="username" type="text" value="" />
+
+    </div>
+
+    @* pasword textbox and label*@
+
+    <div style="margin-left:450px; margin-top: 20px ">
+        
+        <label for="password" style=" color:  #ff6a00">Password: </label><br />
+        <input id="password" name="password" type="password" />
+
+    </div >
+    
+    <div style="margin-left:450px;margin-top: 20px ">
+
+        <input type="submit" value="Login" onclick="func1()"/>
+    
+    </div>
+
+    <div style="margin-left:450px;margin-top: 20px ">
+      
+         @* username or password not exist text *@
+
+         @if (b == true)
+         {
+            <text>
+            <p style="color: #df0">Invalid User Name Or Password...   </p>
+             <p style="color: #ff6a00">Don't have id</p>
+             <p  style="color:  #ff6a00"><a href="register.cshtml">Get Register</a> here  </p>    
+            </text>
+         }
+    </div>
+   
+</form>
+  
+</body>
+
+</html>

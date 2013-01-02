@@ -1,0 +1,75 @@
+﻿@{
+    var db = Database.Open("MyDataBase");
+    var search=UrlData[0];
+    var selectQueryString = "SELECT * FROM Product";
+    var PageTitle = "Search Page"; 
+    var b=true;
+ }
+ 
+@section t1 {
+    @PageTitle
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Products</title>
+    <style type="text/css">
+        table, th, td {
+          border: solid 1px #bbbbbb;
+          border-collapse: collapse;
+          padding: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div style="margin-left:160px ">
+    <h1>Search Products</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Category</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var row in db.Query(selectQueryString)) {
+          <tr>
+          
+             @if(row.Name==search)
+              {
+                  <td><a href="">Go to That product </a></td>
+                  b=true;
+                <td>@row.Category</td>
+                <td>@row.Name</td>
+                <td>@row.Description</td>         
+                <td>@row.Price</td>
+              
+              }
+           
+              @if(row.Category==search)
+              {
+                    <td><a href="">Go to That product </a></td>
+                  b=true;
+                   <td>@row.Category</td>
+                <td>@row.Name</td>
+                <td>@row.Description</td>
+                <td>@row.Price</td>
+              }
+              
+          </tr>
+        } 
+         @if(b==false)
+        {
+         <h1 style="color: #ff6a00">No Result Found</h1>   
+        }     
+      </tbody>
+    </table>
+        
+    </div>
+         
+</body>
+</html>

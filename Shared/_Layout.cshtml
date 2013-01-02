@@ -1,0 +1,20 @@
+﻿@{
+    
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+         <title>@RenderSection("t1")</title>         
+    </head>
+    <body>
+       @RenderPage("~/Shared/_Header.cshtml")
+    <div id="content">
+        @RenderBody()
+    </div>
+    @RenderPage("~/Shared/_Footer.cshtml")
+         
+    </body>
+</html>

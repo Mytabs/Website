@@ -1,0 +1,60 @@
+﻿@{
+  var db = Database.Open("MyDataBase");
+  var selectQueryString = "SELECT * FROM Product";
+  int i=0;
+    var PageTitle = "LIst Delete Product Page"; 
+}
+ 
+@section t1 {
+    @PageTitle
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete a Product</title>
+    <style>
+        table, th, td {
+          border: solid 1px #bbbbbb;
+          border-collapse: collapse;
+          padding: 2px;
+        }
+     </style>
+</head>
+<body>
+  <h1>Delete a Product</h1>
+  <form method="post" action="" name="form">
+    <table border="1">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+           <th>Category</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>File Path</th>
+           <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var row in db.Query(selectQueryString)) {
+          <tr>
+             @i=i+1;
+              <p>i value = @i in list page @row.id</p>
+            <td><a href="@Href("DeleteProduct", row.id)">Delete</a></td>
+             <td>@row.Category</td>
+            <td>@row.Name</td>
+            <td>@row.Description</td>
+            <td>@row.Price</td>
+            <td>@row.Filepath</td>
+            <td>@row.Quantity</td>
+          </tr>
+          
+        }
+      </tbody>
+    </table>
+  </form>
+    <div style="width: 1350px ">
+         @RenderPage("~/Shared/_adminfooter.cshtml")
+         </div>
+</body>
+</html>

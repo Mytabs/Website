@@ -1,0 +1,149 @@
+﻿@{
+    var PageTitle = "Add to Cart Page"; 
+    var b=false;
+    int i=0;
+   
+   //Getting cart and add values to it 
+    
+   if (Session["cart"] == null)
+    {
+    Session["cart"] = new Cart();
+    }
+    @Session["cart"];
+    // Get current cart from Session
+    Cart cart = (Cart)Session["cart"];
+    if(UrlData[0]!="1")
+    {       
+        
+        if(WebSecurity.IsAuthenticated)
+           {
+             b=true;
+            var Name = Session["Name"];
+            var price = Session["price"];
+            //cart.AddItem(Name,price);
+            //var p=Convert.ToDouble(price);
+            if(Name!=null && price!=null)
+            {
+              cart.AddItem(Convert.ToString(Name),Convert.ToDouble(price));
+               
+             }
+             
+              
+           }
+      else
+       {
+         b=false;  
+       }
+   }
+   else
+   {
+       b=true;
+   }
+}
+ 
+@section t1 {
+    @PageTitle
+}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <style>
+#cartTable 
+{
+width: 100%;
+border: none;
+border-spacing:0px;
+}
+#cartTable th {
+border-bottom: 1px solid #cdcdcd;
+}
+#cartTable td, th {
+padding:5px;
+}
+#cartTable .product {
+text-align:left;
+width: 50%;
+}
+#cartTable .size {
+text-align:center;
+339
+width: 10%;
+}
+#cartTable .price {
+text-align:right;
+width: 20%;
+}
+#cartTable .cartTotal td {
+margin-top: 10px;
+border-top: 1px solid #cdcdcd;
+text-align:right;
+font-weight:bold;
+}
+ </style>
+    </head>
+    <body>
+       
+ @if(cart.Items.Count() == 0 && b==true)
+{
+<h2>There are no items in your shopping cart.</h2>
+}
+else if(b==false)
+{
+  <h2 style="margin-left:50px;margin-top:30px ">Login to Add Item in cart.</h2>
+}
+else if(WebSecurity.IsAuthenticated)
+{           
+ 
+                 if(cart.Items.Count() != 0 && b==true)
+                {
+                     <h1 style="margin-left:500px;width:300px ">Check Out Cart</h1>
+                <text>
+                <div style="margin-left:300px;width:600px">
+                <table id="cartTable">
+                @* ... table as before ... *@
+
+                <tr>
+
+                <th class="size">Name</th>
+                <th class="price">Price</th>
+                <th class="price"></th>
+                </tr>
+                @foreach (var item in cart.Items)
+                {
+                 //i=i+1;   
+                <tr>   
+                <td class="size">@item.Name</td>
+                <td class="price">$@item.Price</td>
+                <th class="price"></th>
+                 @i
+                 <td><a href="@Href("RemoveItem.cshtml",i)">Delete</a></td>
+                </tr>
+    
+                  i=i+1;
+                }
+           
+    
+
+        <tr class="cartTotal">
+        <td colspan="2">&nbsp;</td>
+        <td>Total: @cart.TotalValue()</td>
+        </tr>
+        </table>
+        <div style="margin-left:270px;">
+        <a href="@Href("BillingPage")">Payment Page</a>
+        </div>
+            </div>
+        </text>
+        }    
+}
+        else
+        {
+         <h2 style="margin-left:50px;margin-top:30px ">Login to Add Item in cart.</h2>   
+        }
+        
+        
+    </body>
+</html>
